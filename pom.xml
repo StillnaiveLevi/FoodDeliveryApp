@@ -28,6 +28,10 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+        <jjwt.version>0.11.5</jjwt.version>
+        <stripe.version>24.3.0</stripe.version>
+        <mapstruct.version>1.6.0</mapstruct.version>
+        <lombok.version>1.18.36</lombok.version>
 	</properties>
 	<dependencies>
 		<!-- ================== Core Spring Boot ================== -->
@@ -115,7 +119,7 @@
 
         <!-- Rate Limiting (Extra Mile) -->
         <dependency>
-            <groupId>com.giffing.bucket4j.spring-boot-starter</groupId>
+            <groupId>com.giffing.bucket4j.spring.boot.starter</groupId>
             <artifactId>bucket4j-spring-boot-starter</artifactId>
             <version>0.10.0</version>
         </dependency>
