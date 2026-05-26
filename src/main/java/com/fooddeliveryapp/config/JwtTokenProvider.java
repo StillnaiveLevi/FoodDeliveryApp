@@ -1,35 +1,39 @@
-package com.fooddeliveryapp;
+package com.fooddeliveryapp.config;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.Date;
 
 @Component
-@RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    private final JwtConfig jwtConfig;
+    @Value("${jwt.secret}")
+    private String secret;
+
+    @Value("${jwt.expiration}")
+    private long expiration;
 
     public String generateToken(String email, String role) {
         return Jwts.builder()
                 .setSubject(email)
                 .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtConfig.getExpiration()))
-                .signWith(Keys.hmacShaKeyFor(jwtConfig.getSecret().getBytes()))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .compact();
     }
 
     public String extractUsername(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(Keys.hmacShaKeyFor(jwtConfig.getSecret().getBytes()))
+                .setSigningKey(Keys.hmacShaKeyFor(secret.getBytes()))
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
@@ -45,7 +49,7 @@ public class JwtTokenProvider {
                     username, null, Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role))
             );
 
-            SecurityContextHolder.getContext().setAuthentication(auth);
+            org.springframework.security.core.context.SecurityContextHolder.getContext().setAuthentication(auth);
         } catch (Exception e) {
             System.out.println("Token validation error: " + e.getMessage());
         }
@@ -53,7 +57,7 @@ public class JwtTokenProvider {
 
     private String extractRole(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(Keys.hmacShaKeyFor(jwtConfig.getSecret().getBytes()))
+                .setSigningKey(Keys.hmacShaKeyFor(secret.getBytes()))
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
