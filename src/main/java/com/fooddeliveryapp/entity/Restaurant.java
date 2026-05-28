@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-public class Restaurant extends BaseEntity {
+public class Restaurant {
     private String name;
     private String description;
     private String address;
