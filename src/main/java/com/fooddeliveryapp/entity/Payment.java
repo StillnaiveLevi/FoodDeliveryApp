@@ -14,7 +14,8 @@ import lombok.Setter;
 @Getter @Setter
 public class Payment extends BaseEntity {
     
-    @OneToOne@JoinColumn(name = "order_id")
+    @OneToOne
+    @JoinColumn(name = "order_id")
     private Order order;
 
     private String stripePaymentIntentId;
