@@ -73,4 +73,28 @@ public class AuthService {
 
         return response;
     }
+
+    public AuthResponse login(String email, String password) {
+        User user = userRepo.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Invalid email or password");
+        }
+
+        String token = jwtTokenProvider.generateToken(
+            user.getEmail(),
+            user.getRole().name()
+        );
+        String refreshToken = jwtTokenProvider.generateRefreshToken(user.getEmail());
+
+        AuthResponse response = new AuthResponse();
+        response.setToken(token);
+        response.setRefreshToken(refreshToken);
+        response.setEmail(user.getEmail());
+        response.setFullName(user.getFullName());
+        response.setRole(user.getRole().name());
+
+        return response;
+    }
 }
