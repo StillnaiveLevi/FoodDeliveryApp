@@ -1,4 +1,4 @@
-package com.fooddeliveryapp.config;
+package com.fooddeliveryapp.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.Date;
 
 @Component
-public class JwtTokenProvider {
+public class JwtTokenProvider{
 
     @Value("${jwt.secret}")
     private String secret;

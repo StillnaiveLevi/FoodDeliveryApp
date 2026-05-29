@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
-import com.fooddeliveryapp.config.JwtTokenProvider;
 import com.fooddeliveryapp.dto.AuthResponse;
 import com.fooddeliveryapp.dto.RegisterRequest;
 import com.fooddeliveryapp.entity.Customer;
@@ -14,6 +13,7 @@ import com.fooddeliveryapp.entity.User;
 import com.fooddeliveryapp.entity.enums.Role;
 import com.fooddeliveryapp.repository.RestaurantRepo;
 import com.fooddeliveryapp.repository.UserRepo;
+import com.fooddeliveryapp.security.JwtTokenProvider;
 
 import jakarta.transaction.Transactional;
 
@@ -36,7 +36,7 @@ public class AuthService {
 
         if (request.getRole() == Role.RESTAURANT_OWNER) {
             user = new User();
-        } else {
+        } else{
             user = new Customer();
         }
 
@@ -45,7 +45,6 @@ public class AuthService {
         user.setPhoneNumber(request.getPhoneNumber());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole());
-
         User savedUser = userRepo.save(user);
 
         if (request.getRole() == Role.RESTAURANT_OWNER) {
@@ -59,15 +58,18 @@ public class AuthService {
             restaurantRepo.save(restaurant);
         }
 
-        String token = jwtTokenProvider.generateToken(savedUser);
-        String refreshToken = jwtTokenProvider.generateRefreshToken(savedUser);
+        String token = jwtTokenProvider.generateToken(
+            savedUser.getEmail(),
+            savedUser.getRole().name()
+        );
+        String refreshToken = jwtTokenProvider.generateRefreshToken(savedUser.getEmail());
 
         AuthResponse response = new AuthResponse();
         response.setToken(token);
         response.setRefreshToken(refreshToken);
         response.setEmail(savedUser.getEmail());
         response.setFullName(savedUser.getFullName());
-        response.setRole(savedUser.getRole());
+        response.setRole(savedUser.getRole().name());
 
         return response;
     }

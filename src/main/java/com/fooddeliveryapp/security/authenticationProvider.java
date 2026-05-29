@@ -1,4 +1,4 @@
-package com.fooddeliveryapp.config;
+package com.fooddeliveryapp.security;
 
 public class authenticationProvider {
 
