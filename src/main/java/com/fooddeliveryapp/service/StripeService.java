@@ -31,7 +31,7 @@ public class StripeService {
                     .setAmount((long) (order.getTotalAmount() * 100))   // Stripe uses smallest unit (cents)
                     .setCurrency(stripeProperties.getCurrency().toLowerCase())
                     .setDescription("Order #" + order.getId() + " - Food Delivery")
-                    .setMetadata(java.util.Map.of(
+                    .putAllMetadata(java.util.Map.of(
                             "orderId", order.getId().toString(),
                             "customerEmail", order.getCustomer().getEmail()
                     ))
