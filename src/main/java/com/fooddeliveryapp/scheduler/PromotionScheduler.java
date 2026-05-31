@@ -19,7 +19,7 @@ public class PromotionScheduler {
     @Scheduled(cron = "0 0 0 * * ?")
     public void expirePromoCodes() {
         log.info("Starting daily promo code expiration job...");
-        promoService.expireOldPromoCodes();
+        promoService.expirePromoCodes();
         log.info("Promo code expiration job completed.");
     }
 
