@@ -27,7 +27,7 @@ public class OrderService {
     private final RestaurantRepo restaurantRepository;
     private final UserRepo userRepository;
     private final RedisTemplate<String, Object> redisTemplate;
-    private final StripeService stripeService;        // We'll create this
+    private final StripeService stripeService;      
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
