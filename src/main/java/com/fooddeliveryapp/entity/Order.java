@@ -1,5 +1,6 @@
 package com.fooddeliveryapp.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -22,24 +23,30 @@ import lombok.Setter;
 @Table(name = "orders")
 @Getter @Setter
 public class Order extends BaseEntity {
-   @ManyToOne
-   @JoinColumn(name = "customer_id")
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "restaurant_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems = new ArrayList<>();
-    
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> items = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.PENDING;
 
-    private double totalAmount;
+    private Double totalAmount;
     private String deliveryAddress;
+    private Double deliveryLatitude;
+    private Double deliveryLongitude;
 
-    @OneToOne
-    @JoinColumn(name = "payment_id")
+    private LocalDateTime estimatedDeliveryTime;
+
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private Payment payment;
+
+    // For real-time tracking
+    private String deliveryPartnerName;
+    private String deliveryPartnerPhone;
 }

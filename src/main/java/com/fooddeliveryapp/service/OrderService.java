@@ -70,7 +70,7 @@ public class OrderService {
                 orderItem.setUnitPrice(menuItem.getPrice());
                 orderItem.setOrder(order);
 
-                order.getOrderItems().add(orderItem);
+                order.getItems().add(orderItem);
                 total += menuItem.getPrice() * itemReq.getQuantity();
             }
 
