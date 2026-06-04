@@ -5,6 +5,9 @@ import com.fooddeliveryapp.entity.Order;
 import com.fooddeliveryapp.entity.enums.OrderStatus;
 import com.fooddeliveryapp.repository.OrderRepo;
 import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDateTime;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
@@ -28,7 +31,7 @@ public class OrderTrackingService {
 
         // Security check
         if (!order.getCustomer().getEmail().equals(userEmail) && 
-            !order.getRestaurant().getEmail().equals(userEmail)) {
+            !order.getRestaurant().getOwner().getEmail().equals(userEmail)) {
             throw new RuntimeException("Unauthorized access to order");
         }
 
