@@ -18,10 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class OrderTrackingService {
+    
 
     private static final Logger log = LoggerFactory.getLogger(OrderTrackingService.class);
 
     private final OrderRepo orderRepository;
+
+    private final OrderWebSocketService webSocketService;
 
     @Cacheable(value = "orderTracking", key = "#orderId")
     @Transactional(readOnly = true)
@@ -63,7 +66,9 @@ public class OrderTrackingService {
 
         log.info("Order #{} status updated to {}", orderId, newStatus);
         
-        // TODO: Push notification / WebSocket event here
+        // Notify via WebSocket
+       webSocketService.sendOrderUpdate(orderId, getOrderStatus(orderId, order.getCustomer().getEmail()));
+        
     }
 
     private String getStatusMessage(OrderStatus status) {
