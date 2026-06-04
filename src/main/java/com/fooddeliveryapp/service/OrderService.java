@@ -28,7 +28,7 @@ public class OrderService {
     private final UserRepo userRepository;
     private final RedisTemplate<String, Object> redisTemplate;
     private final StripeService stripeService;      
-    private final JwtTokenProvider jwtTokenProvider;
+   
 
     @Transactional
     public OrderResponse placeOrder(OrderRequest request, String userEmail) {
