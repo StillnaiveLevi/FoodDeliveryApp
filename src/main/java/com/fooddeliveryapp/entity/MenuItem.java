@@ -1,13 +1,14 @@
 package com.fooddeliveryapp.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 import com.fooddeliveryapp.entity.enums.Category;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class MenuItem extends BaseEntity{
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    @ManyToMany
-    private List<Category> categories = new ArrayList<>();
-}
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private Set<Category> categories;
+    }
