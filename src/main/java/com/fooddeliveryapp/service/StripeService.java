@@ -5,7 +5,6 @@ import com.fooddeliveryapp.entity.Order;
 import com.fooddeliveryapp.entity.Payment;
 import com.fooddeliveryapp.entity.enums.PaymentStatus;
 import com.fooddeliveryapp.repository.PaymentRepo;
-import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;

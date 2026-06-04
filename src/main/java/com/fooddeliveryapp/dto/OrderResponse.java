@@ -9,5 +9,7 @@ public class OrderResponse {
     private String deliveryAddress;
     private Double totalPrice;
     private String status;
+    private String message;
     private String paymentIntentClientSecret; //for Stripe payment processing
+    
 }

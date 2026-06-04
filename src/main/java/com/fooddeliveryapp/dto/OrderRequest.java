@@ -16,7 +16,9 @@ public class OrderRequest {
 
     private String deliveryAddress;
     private Double deliveryLatitude;
-    private Double deliveryLongitude;   
+    private Double deliveryLongitude; 
+    
+    private String promoCode;
 }
 
 

@@ -49,4 +49,8 @@ public class Order extends BaseEntity {
     // For real-time tracking
     private String deliveryPartnerName;
     private String deliveryPartnerPhone;
+
+    private LocalDateTime orderDate;
+
+    private String promoCode;
 }

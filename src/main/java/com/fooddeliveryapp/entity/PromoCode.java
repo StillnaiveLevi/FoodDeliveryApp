@@ -1,29 +1,46 @@
 package com.fooddeliveryapp.entity;
 
-import java.time.LocalDateTime;
-
 import com.fooddeliveryapp.entity.enums.PromoType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
-@Getter @Setter
+@Getter
+@Setter
+@Table(name = "promo_codes")
 public class PromoCode extends BaseEntity {
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 50)
     private String code;
-
-    private Double discountAmount;     // Fixed amount
-    private Double discountPercentage; // Percentage discount
 
     @Enumerated(EnumType.STRING)
     private PromoType promoType;
 
-    private Double minOrderAmount;
+    // For FIXED_AMOUNT
+    private Double discountAmount;
+
+    // For PERCENTAGE
+    private Double discountPercentage;
+
+    private Double minOrderAmount = 0.0;
+
+    private LocalDateTime validFrom;
     private LocalDateTime validUntil;
+
     private boolean active = true;
 
-    private Integer usageLimit = 100;        // Total uses allowed
+    private Integer usageLimit = 100;
     private Integer usedCount = 0;
+
+    // If null → Global promo. Otherwise, restaurant-specific
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
+
+    private String description;
+
+    
 }
