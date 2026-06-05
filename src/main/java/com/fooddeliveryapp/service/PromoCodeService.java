@@ -1,7 +1,6 @@
 package com.fooddeliveryapp.service;
 
 import com.fooddeliveryapp.entity.PromoCode;
-import com.fooddeliveryapp.entity.enums.PromoType;
 import com.fooddeliveryapp.repository.PromoCodeRepo;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

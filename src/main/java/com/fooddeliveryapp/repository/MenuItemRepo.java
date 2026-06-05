@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface MenuItemRepo extends JpaRepository<MenuItem, Long> {
 
-    List<MenuItem> findByRestaurantIdAndAvailableTrue(Long restaurantId);
+    List<MenuItem> findByRestaurantIdAndIsAvailableTrue(Long restaurantId);
 
-    @Query("SELECT m FROM MenuItem m WHERE m.restaurant.id = :restaurantId AND m.available = true")
+    @Query("SELECT m FROM MenuItem m WHERE m.restaurant.id = :restaurantId AND m.isAvailable = true")
     List<MenuItem> findAvailableMenuItems(@Param("restaurantId") Long restaurantId);
 
     // For caching - frequently used query

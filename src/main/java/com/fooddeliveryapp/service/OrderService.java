@@ -8,7 +8,6 @@ import com.fooddeliveryapp.entity.*;
 import com.fooddeliveryapp.entity.enums.OrderStatus;
 import com.fooddeliveryapp.entity.enums.PaymentStatus;
 import com.fooddeliveryapp.repository.*;
-import com.fooddeliveryapp.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
