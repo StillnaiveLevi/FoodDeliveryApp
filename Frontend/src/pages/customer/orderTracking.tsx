@@ -9,24 +9,24 @@ const OrderTracking = () => {
   const [status, setStatus] = useState<string>("");
 
   useEffect(() => {
-    // Fetch initial status
-    const fetchOrder = async () => {
-      const res = await api.get(`/tracking/orders/${orderId}`);
-      setTracking(res.data);
-      setStatus(res.data.status);
-    };
-    fetchOrder();
+  const fetchOrder = async () => {
+    const res = await api.get(`/tracking/orders/${orderId}`);
+    setTracking(res.data);
+    setStatus(res.data.status);
+  };
+  fetchOrder();
 
-    // WebSocket Connection
-    const socket = io('http://localhost:8080', { path: '/ws-order-tracking' });
+  const socket = io('http://localhost:8080', { path: '/ws-order-tracking' });
 
-    socket.on(`order/${orderId}`, (data: any) => {
-      setTracking(data);
-      setStatus(data.status);
-    });
+  socket.on(`order/${orderId}`, (data: any) => {
+    setTracking(data);
+    setStatus(data.status);
+  });
 
-    return () => socket.disconnect();
-  }, [orderId]);
+  return () => {
+    socket.disconnect();
+  };
+}, [orderId]);
 
   const statusSteps = ["PENDING", "CONFIRMED", "PREPARING", "OUT_FOR_DELIVERY", "DELIVERED"];
 
