@@ -1,15 +1,19 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
+
     try {
       const res = await api.post('/auth/login', { email, password });
       
@@ -20,6 +24,8 @@ const Login = () => {
       navigate('/');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,15 +55,16 @@ const Login = () => {
           />
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-orange-600 text-white py-3 rounded-lg font-semibold hover:bg-orange-700"
           >
-            Login
+            {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
 
         <p className="text-center mt-6">
           Don't have an account?{' '}
-          <a href="/register" className="text-orange-600 font-medium">Register</a>
+          <Link to="/register" className="text-orange-600 font-medium">Register</Link>
         </p>
       </div>
     </div>
