@@ -7,12 +7,20 @@ const OrderTracking = () => {
   const { orderId } = useParams();
   const [tracking, setTracking] = useState<any>(null);
   const [status, setStatus] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchOrder = async () => {
-      const res = await api.get(`/orders/track/${orderId}`);
-      setTracking(res.data);
-      setStatus(res.data.status);
+      try {
+        const res = await api.get(`/orders/track/${orderId}`);
+        setTracking(res.data);
+        setStatus(res.data.status);
+      } catch (err: any) {
+        setError(err.response?.data?.message || 'Could not load order tracking');
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchOrder();
@@ -35,6 +43,9 @@ const OrderTracking = () => {
     <div className="max-w-2xl mx-auto p-6">
       <div className="bg-white rounded-2xl shadow-xl p-8">
         <h1 className="text-3xl font-bold mb-8 text-center">Order Tracking</h1>
+
+        {loading && <p className="text-center text-gray-600">Loading order...</p>}
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         <div className="space-y-8">
           <div className="relative">
